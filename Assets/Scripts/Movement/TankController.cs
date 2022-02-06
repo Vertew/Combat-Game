@@ -8,6 +8,7 @@ public class TankController : MonoBehaviour
 
     [SerializeField] private Transform myForward;
     [SerializeField] private float mySpeed;
+    [SerializeField] private float myRotationSpeed;
 
     private Rigidbody2D rigidBody;
 
@@ -19,9 +20,16 @@ public class TankController : MonoBehaviour
     private void FixedUpdate()
     {
         UpdateVelocity();
+        UpdateRotation();
     }
     void UpdateVelocity()
     {
         rigidBody.velocity = mySpeed * myForward.up;
     }
+    private void UpdateRotation()
+    {
+        rigidBody.angularVelocity = myRotationSpeed;
+    }
+
+
 }
