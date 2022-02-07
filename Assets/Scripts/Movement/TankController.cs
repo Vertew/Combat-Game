@@ -14,6 +14,7 @@ public class TankController : MonoBehaviour
     private Rigidbody2D rigidBody;
     private float currentRotationSpeed = 0f;
     private float angleToTarget;
+    private float vectorMag;
     private Vector2 vectorToTarget = new Vector2();
     private Transform myTransform;
 
@@ -25,22 +26,44 @@ public class TankController : MonoBehaviour
 
     private void FixedUpdate()
     {
+        UpdateVector();
         UpdateVelocity();
         UpdateRotation();
     }
-    void UpdateVelocity()
+    private void UpdateVelocity()
     {
-        rigidBody.velocity = mySpeed * myForward.up;
+        vectorMag = vectorToTarget.magnitude;
+
+        /* The tank drives close enough to fire point blank.
+         * In practice this would most likely actually be determined by
+         * whether or not the tank has a shot at the target. */
+        if (vectorMag <= 2f)
+        {
+            rigidBody.velocity = 0 * myForward.up;
+        }else
+        {
+            rigidBody.velocity = mySpeed * myForward.up;
+        }
+
     }
     private void UpdateRotation()
     {
-        vectorToTarget.x = myTarget.position.x - transform.position.x;
-        vectorToTarget.y = myTarget.position.y - transform.position.y;
-
         angleToTarget = Vector2.SignedAngle(myForward.up, vectorToTarget);
 
-        currentRotationSpeed = angleToTarget / 180f;
+        // This prevents the tank from turning infinitely as currentRotationSpeed tends to 0
+        if (angleToTarget < 2f)
+        {
+            angleToTarget = 0f;
+        }
+
+        currentRotationSpeed = (angleToTarget / 180f);
 
         rigidBody.angularVelocity =  currentRotationSpeed * maxRotationSpeed;
     }
+    private void UpdateVector()
+    {
+        vectorToTarget.x = myTarget.position.x - myTransform.position.x;
+        vectorToTarget.y = myTarget.position.y - myTransform.position.y;
+    }
+
 }
