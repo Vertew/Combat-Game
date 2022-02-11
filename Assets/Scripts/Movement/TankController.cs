@@ -30,6 +30,7 @@ public class TankController : MonoBehaviour
         UpdateVelocity();
         UpdateRotation();
     }
+
     private void UpdateVelocity()
     {
         vectorMag = vectorToTarget.magnitude;
@@ -50,13 +51,19 @@ public class TankController : MonoBehaviour
     {
         angleToTarget = Vector2.SignedAngle(myForward.up, vectorToTarget);
 
-        // This prevents the tank from turning infinitely as currentRotationSpeed tends to 0
-        if (angleToTarget < 2f)
+        // Deciding whether the tank needs to turn or not based on angle
+        if (angleToTarget > 2f)
         {
-            angleToTarget = 0f;
-        }
+            currentRotationSpeed = 1;
 
-        currentRotationSpeed = (angleToTarget / 180f);
+        }else if(angleToTarget < -2f)
+        {
+            currentRotationSpeed = -1;
+
+        }else
+        {
+            currentRotationSpeed = 0;
+        }
 
         rigidBody.angularVelocity =  currentRotationSpeed * maxRotationSpeed;
     }

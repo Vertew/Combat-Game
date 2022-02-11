@@ -12,7 +12,6 @@ public class PlayerController : MonoBehaviour
     [SerializeField] private Transform myTarget;
 
     private Rigidbody2D rigidBody;
-    //private float currentRotationSpeed = 0f;
     private float angleToTarget;
     private float vectorMag;
     private Vector2 vectorToTarget = new Vector2();
