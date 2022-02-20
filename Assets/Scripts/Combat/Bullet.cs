@@ -21,7 +21,7 @@ public class Bullet : MonoBehaviour
     // Destroy shot if it hits enemy tank
     private void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        Debug.Log(hitInfo.name);
+        Debug.Log("You hit: " + hitInfo.name);
         Destroy(gameObject);
     }
 
