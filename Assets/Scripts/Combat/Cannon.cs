@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Cannon : MonoBehaviour
 {
@@ -10,8 +11,11 @@ public class Cannon : MonoBehaviour
     [SerializeField] private float currentReloadTime;
     [SerializeField] private float maxReloadTime;
 
+    private bool shoot;
+
     private void Start()
     {
+        shoot = false;
         currentReloadTime = 0;
         maxReloadTime = 1;
     }
@@ -24,17 +28,20 @@ public class Cannon : MonoBehaviour
         }
         else
         {
-            if (Input.GetKeyDown(KeyCode.Space))
+            
+            if (shoot)
             {
-                Shoot();
+                Instantiate(shot, firepoint.position, firepoint.rotation);
                 currentReloadTime = maxReloadTime;
+                shoot = false;
             }
-        } 
+            
+        }
     }
 
-    private void Shoot()
+    public void Fire(InputAction.CallbackContext input)
     {
-        Instantiate(shot, firepoint.position, firepoint.rotation);
+        if (input.performed) shoot = true;
     }
 
 }
