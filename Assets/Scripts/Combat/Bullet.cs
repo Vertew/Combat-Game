@@ -9,8 +9,6 @@ public class Bullet : MonoBehaviour
     [SerializeField] private float projectile_velocity;
     [SerializeField] private Rigidbody2D rb2d;
 
-    private float delay;
-
     void Start()
     {
         rb2d.velocity = transform.up * projectile_velocity;
@@ -22,6 +20,10 @@ public class Bullet : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D hitInfo)
     {
         Debug.Log("You hit: " + hitInfo.name);
+        if (hitInfo.name == "TankEnemy")
+        {
+            GameEvents.current.TankHitTrigger();
+        }
         Destroy(gameObject);
     }
 

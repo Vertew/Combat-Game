@@ -41,3 +41,15 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Floor
+    uniqueID: 3935350365
+    locked: 0
+  - name: Tanks
+    uniqueID: 3763169965
+    locked: 0
+  - name: Walls
+    uniqueID: 1589482445
+    locked: 0
+  - name: FX
+    uniqueID: 1651745443
+    locked: 0
