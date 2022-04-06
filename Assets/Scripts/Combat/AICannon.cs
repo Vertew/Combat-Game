@@ -46,7 +46,7 @@ public class AICannon : MonoBehaviour
         {
             if (visionRay.collider != null)
             {
-                if (visionRay.collider.gameObject.CompareTag("Player"))
+                if (visionRay.collider.gameObject.CompareTag("Tank"))
                 {
                     return true;
                 }

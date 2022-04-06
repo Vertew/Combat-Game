@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class ScoreDisplay : MonoBehaviour
 {
 
-    private int score = 0;
+    private int score;
     [SerializeField] private Text scoreText;
 
     private void Start()
@@ -18,6 +18,9 @@ public class ScoreDisplay : MonoBehaviour
     {
         scoreText.text = score.ToString();
 
+    }
+
+    public void UpdateHP() { 
     }
 
     private void OnScoreUpdate()

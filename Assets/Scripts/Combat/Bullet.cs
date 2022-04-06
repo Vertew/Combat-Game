@@ -19,8 +19,7 @@ public class Bullet : MonoBehaviour
     // Destroy shot if it hits enemy tank
     private void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        Debug.Log("You hit: " + hitInfo.name);
-        if (hitInfo.name == "TankEnemy")
+        if (hitInfo.tag == "Tank")
         {
             GameEvents.current.TankHitTrigger();
         }
