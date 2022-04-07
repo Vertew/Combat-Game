@@ -7,7 +7,7 @@ using UnityEngine;
 public class TankManager : MonoBehaviour
 {
 
-    [SerializeField] private int myScore;
+    [SerializeField] public int myScore;
     [SerializeField] public int myHealth;
     [SerializeField] public string tankName;
     [SerializeField] private Vector3 spawnPoint;
@@ -29,13 +29,13 @@ public class TankManager : MonoBehaviour
         startRotation = myTank.transform.rotation;
     }
 
+    // If a projectile enters the tank it loses health
     private void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        Debug.Log(gameObject.name + " has been hit!");
         myHealth--;
-        Debug.Log(gameObject.name + " HP = " + myHealth);
     }
 
+    // When a shot hits a tank, the round restarts, i.e. tanks restart at spawn positions
     private void OnRoundRestart()
     {
         myTank.transform.SetPositionAndRotation(spawnPoint, startRotation);

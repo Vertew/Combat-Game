@@ -10,6 +10,7 @@ public class Cannon : MonoBehaviour
     [SerializeField] private GameObject shot;
     [SerializeField] private float currentReloadTime;
     [SerializeField] private float maxReloadTime;
+    private GameObject myTank;
 
     private bool shoot;
 
@@ -18,6 +19,7 @@ public class Cannon : MonoBehaviour
         shoot = false;
         currentReloadTime = 0;
         maxReloadTime = 1;
+        myTank = gameObject;
     }
 
     void Update()
@@ -31,7 +33,10 @@ public class Cannon : MonoBehaviour
             
             if (shoot)
             {
-                Instantiate(shot, firepoint.position, firepoint.rotation);
+                GameObject bullet = Instantiate(shot, firepoint.position, firepoint.rotation);
+                // Sending tank firing the shot to the shot object so it knows where it came from
+                bullet.SendMessage("Retriever", myTank);
+
                 currentReloadTime = maxReloadTime;
                 shoot = false;
             }

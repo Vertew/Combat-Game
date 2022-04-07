@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Tank
+  - HealthUI
+  - ScoreUI
+  - NameUI
   layers:
   - Default
   - TransparentFX

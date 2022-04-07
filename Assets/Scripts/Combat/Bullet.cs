@@ -8,6 +8,8 @@ public class Bullet : MonoBehaviour
 
     [SerializeField] private float projectile_velocity;
     [SerializeField] private Rigidbody2D rb2d;
+    private GameObject myTank;
+    private TankManager myTankManager;
 
     void Start()
     {
@@ -16,11 +18,19 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject, 5f);
     }
 
-    // Destroy shot if it hits enemy tank
+    public void Retriever(GameObject tankInput)
+    {
+        myTank = tankInput;
+        myTankManager = myTank.GetComponent<TankManager>();
+    }
+
+    // Destroy shot if it hits object
     private void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        if (hitInfo.tag == "Tank")
+        // If the tank hits another tank and it isn't the tank the shot was fired from, score is risen and tank hit trigger occurs
+        if (hitInfo.gameObject != myTank && hitInfo.CompareTag("Tank"))
         {
+            myTankManager.myScore += 15;
             GameEvents.current.TankHitTrigger();
         }
         Destroy(gameObject);

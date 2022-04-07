@@ -7,6 +7,10 @@ using Pathfinding;
 public class TankController : MonoBehaviour
 {
 
+    // This class handles the basic movement AI for an AI opponent.
+    // It uses the A* pathfinding project in conjunction with my own 
+    // movement functions.
+
     [SerializeField] private Transform myForward;
     [SerializeField] private float mySpeed;
     [SerializeField] private float maxRotationSpeed;
@@ -22,7 +26,7 @@ public class TankController : MonoBehaviour
 
     private Path path;
     private int currentWaypoint = 0;
-    private bool reachedEndOfPath = false;
+    private bool reachedEndOfPath = false; // This is used but MSVS doesn't seem to acknowledge the fact
     private Seeker seeker;
 
     public Transform myTransform;
