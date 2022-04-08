@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class UIManager : MonoBehaviour
 {
@@ -9,9 +10,11 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text UItext;
     [SerializeField] private GameObject tankObj;
     private TankManager tankManager;
+    private string levelNum;
     void Start()
     {
         tankManager = tankObj.GetComponent<TankManager>();
+        levelNum = SceneManager.GetActiveScene().buildIndex.ToString();
     }
 
     private void Update()
@@ -28,6 +31,13 @@ public class UIManager : MonoBehaviour
         {
             UItext.text = tankManager.tankName.ToString();
         }
+        else if (gameObject.CompareTag("TitleUI"))
+        {
+            UItext.text = "Level " + levelNum;
+        }
     }
+
+    
+
 
 }

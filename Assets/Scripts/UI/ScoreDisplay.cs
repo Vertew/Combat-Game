@@ -11,7 +11,7 @@ public class ScoreDisplay : MonoBehaviour
 
     private void Start()
     {
-        GameEvents.current.onTankHit += OnScoreUpdate;
+        GameEvents.current.OnTankHit += OnScoreUpdate;
     }
 
     private void Update()

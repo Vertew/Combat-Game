@@ -18,9 +18,10 @@ public class TankController : MonoBehaviour
     [SerializeField] float nextWaypointDistance = 3f;
 
     private Rigidbody2D rigidBody;
-    private float currentRotationSpeed = 0f;
+    private float currentRotationSpeed;
     private float angleToTarget;
     private float vectorMag;
+    private float vectorMag2;
     private Vector2 vectorToTarget = new Vector2();
     private Vector2 vectorToTank = new Vector2();
 
@@ -80,6 +81,9 @@ public class TankController : MonoBehaviour
 
         UpdateVector();
 
+
+        UpdateVelocity();
+
         UpdateVelocity();
 
         float distance = Vector2.Distance(rigidBody.position, path.vectorPath[currentWaypoint]);
@@ -95,8 +99,9 @@ public class TankController : MonoBehaviour
     {
 
         vectorMag = vectorToTank.magnitude;
+        vectorMag2 = vectorToTarget.magnitude;
 
-        if(vectorMag <= 2f)
+        if (vectorMag <= 2f)
         {
             rigidBody.velocity = 0 * myForward.up;
         }

@@ -7,7 +7,7 @@ public class GameEvents : MonoBehaviour
 {
 
     public static GameEvents current;
-    public event Action onTankHit;
+    public event Action OnTankHit, OnTankKilled;
 
     public void Awake()
     {
@@ -16,9 +16,17 @@ public class GameEvents : MonoBehaviour
 
     public void TankHitTrigger()
     {
-        if (onTankHit != null)
+        if (OnTankHit != null)
         {
-            onTankHit();
+            OnTankHit();
+        }
+    }
+
+    public void TankKilledTrigger()
+    {
+        if (OnTankKilled != null)
+        {
+            OnTankKilled();
         }
     }
 

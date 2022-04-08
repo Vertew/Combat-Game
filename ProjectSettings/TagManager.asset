@@ -8,6 +8,7 @@ TagManager:
   - HealthUI
   - ScoreUI
   - NameUI
+  - TitleUI
   layers:
   - Default
   - TransparentFX
