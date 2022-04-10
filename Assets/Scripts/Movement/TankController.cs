@@ -82,7 +82,6 @@ public class TankController : MonoBehaviour
         UpdateVector();
 
 
-        UpdateVelocity();
 
         UpdateVelocity();
 

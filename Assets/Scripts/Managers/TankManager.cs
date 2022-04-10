@@ -20,7 +20,7 @@ public class TankManager : MonoBehaviour
     void Start()
     {
         GameEvents.current.OnTankHit += OnHit;
-        GameEvents.current.OnTankKilled += OnKilled;
+        GetScore();
     }
 
     private void Awake()
@@ -30,27 +30,22 @@ public class TankManager : MonoBehaviour
         myTank = gameObject;
         spawnPoint = myTank.transform.position;
         startRotation = myTank.transform.rotation;
-        GetScore();
     }
 
     // If a projectile enters the tank it loses health
     private void OnTriggerEnter2D(Collider2D hitInfo)
     {
         myHealth--;
-        if (myHealth == 0) {GameEvents.current.TankKilledTrigger();}
+        if (myHealth == 0) 
+        {
+            GameEvents.current.TankKilledTrigger();
+        }
     }
 
     // When a shot hits a tank, the round restarts, i.e. tanks restart at spawn positions
     private void OnHit()
     {
         myTank.transform.SetPositionAndRotation(spawnPoint, startRotation);
-    }
-
-    //Potentially move this to MainManager? Might be better
-    private void OnKilled()
-    {
-        MainManager.Instance.updateScore(myScore, objName);
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
     private void GetScore()
@@ -69,4 +64,12 @@ public class TankManager : MonoBehaviour
     {
 
     }
+
+
+    private void OnDestroy()
+    {
+        MainManager.Instance.updateScore(myScore, objName);
+        GameEvents.current.OnTankHit -= OnHit;
+    }
+
 }

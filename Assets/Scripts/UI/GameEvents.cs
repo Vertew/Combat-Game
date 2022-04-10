@@ -11,7 +11,16 @@ public class GameEvents : MonoBehaviour
 
     public void Awake()
     {
+
+        if (current != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
         current = this;
+        DontDestroyOnLoad(gameObject);
+
     }
 
     public void TankHitTrigger()
