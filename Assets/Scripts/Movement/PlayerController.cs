@@ -11,7 +11,7 @@ public class PlayerController : MonoBehaviour, IEntity
     [SerializeField] private Transform myForward;
     [SerializeField] private float mySpeed;
     [SerializeField] private float maxRotationSpeed;
-    [SerializeField] private Transform myTarget;
+    //[SerializeField] private Transform myTarget;
 
     private Rigidbody2D rigidBody;
     private float angleToTarget;
@@ -31,10 +31,6 @@ public class PlayerController : MonoBehaviour, IEntity
         commandProcessor = GetComponent<CommandProcessor>();
     }
 
-    private void FixedUpdate()
-    {
-        UpdateVector();
-    }
     void Update()
     {
 
@@ -64,12 +60,6 @@ public class PlayerController : MonoBehaviour, IEntity
         {
             commandProcessor.ExecuteCommand(new RotateCommand(this, Time.timeSinceLevelLoad, -maxRotationSpeed));
         }
-    }
-
-    private void UpdateVector()
-    {
-        vectorToTarget.x = myTarget.position.x - myTransform.position.x;
-        vectorToTarget.y = myTarget.position.y - myTransform.position.y;
     }
 
     public void Forward(InputAction.CallbackContext input)

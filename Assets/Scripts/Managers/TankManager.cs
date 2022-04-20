@@ -17,10 +17,11 @@ public class TankManager : MonoBehaviour
     private string objName;
 
 
+
     void Start()
     {
         GameEvents.current.OnTankHit += OnHit;
-        GetScore();
+        //GetScore();
     }
 
     private void Awake()
@@ -30,6 +31,8 @@ public class TankManager : MonoBehaviour
         myTank = gameObject;
         spawnPoint = myTank.transform.position;
         startRotation = myTank.transform.rotation;
+        GetScore();
+        Debug.Log("Score: " + myScore);
     }
 
     // If a projectile enters the tank it loses health
@@ -45,6 +48,7 @@ public class TankManager : MonoBehaviour
     // When a shot hits a tank, the round restarts, i.e. tanks restart at spawn positions
     private void OnHit()
     {
+        MainManager.Instance.updateScore(myScore, objName);
         myTank.transform.SetPositionAndRotation(spawnPoint, startRotation);
     }
 

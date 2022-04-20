@@ -9,8 +9,15 @@ public class MainManager : MonoBehaviour
 
     public static MainManager Instance;
 
-    // The scores of the two players are stored here in the singleton class
-    public int score1, score2;
+    // The scores of the two players are stored here in the singleton class while the game is in progress
+    public int score1, score2, currentLevel;
+    public bool singleplayer;
+    private GameObject playerAI, playerHuman;
+
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
 
     void Start()
     {
@@ -38,6 +45,28 @@ public class MainManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
+    public void updateSingleplayer(bool val)
+    {
+        singleplayer = val;
+    }
+
+    void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        currentLevel = SceneManager.GetActiveScene().buildIndex;
+        if (currentLevel > 0 && currentLevel < 6)
+        {
+            playerAI = GameObject.Find("TankEnemy");
+            playerHuman = GameObject.Find("TankPlayer2");
+            if (singleplayer)
+            {
+                playerHuman.SetActive(false);
+            }
+            else
+            {
+                playerAI.SetActive(false);
+            }
+        }
+    }
 
     public void updateScore(int score, string name)
     {
@@ -51,6 +80,12 @@ public class MainManager : MonoBehaviour
             score2 = score;
         }
 
+    }
+
+    void OnDisable()
+    {
+        Debug.Log("OnDisable");
+        SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
 
