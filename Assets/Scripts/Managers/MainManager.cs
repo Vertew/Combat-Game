@@ -82,6 +82,12 @@ public class MainManager : MonoBehaviour
 
     }
 
+    public void resetScore()
+    {
+        score1 = 0;
+        score2 = 0;
+    }
+
     void OnDisable()
     {
         Debug.Log("OnDisable");

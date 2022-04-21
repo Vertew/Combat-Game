@@ -9,42 +9,25 @@ public class VictoryText : MonoBehaviour
 
 
     [SerializeField] private TextMeshProUGUI UItext;
-
-    private int player1score, player2score;
+    private FinishedMenu finishedMenu;
 
     // Start is called before the first frame update
     void Start()
     {
-        player1score = MainManager.Instance.score1;
-        player2score = MainManager.Instance.score2;
+        finishedMenu = gameObject.GetComponentInParent<FinishedMenu>();
     }
+
 
     // Update is called once per frame
     void Update()
     {
-        if (Winner() == "both") { UItext.text = "Draw! \n"; }
-        else { UItext.text = "Player " + Winner() + " wins! \n" ; }
+        
+        if (finishedMenu.Winner() == "both") { UItext.text = "Draw! \n"; }
+        else { UItext.text = "Player " + finishedMenu.Winner() + " wins! \n"; }
 
-        UItext.text += "Player 1 score: " + player1score + "\n";
-        UItext.text += "Player 2 score: " + player2score;
-
-    }
-
-
-    private string Winner()
-    {
-        if (player1score > player2score)
-        {
-            return "1";
-        }
-        else if (player1score < player2score)
-        {
-            return "2";
-        }
-        else
-        {
-            return "both";
-        }
+        UItext.text += "Player 1 score: " + finishedMenu.player1score + "\n";
+        UItext.text += "Player 2 score: " + finishedMenu.player2score;
+        
     }
 
 }

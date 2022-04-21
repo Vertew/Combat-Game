@@ -6,20 +6,29 @@ using UnityEngine.SceneManagement;
 public class FinishedMenu : MonoBehaviour
 {
 
-    // Start is called before the first frame update
+    public int player1score, player2score;
+
+    // The scores of the game that just finished are kept and the scores are then
+    // resent in main manager back to 0.
     void Start()
     {
-        
+        player1score = MainManager.Instance.score1;
+        player2score = MainManager.Instance.score2;
     }
 
-    // Update is called once per frame
     void Update()
     {
         
     }
 
+    public void Scores()
+    {
+        SceneManager.LoadScene("ScoresMenu");
+    }
+
     public void Continue()
     {
+        MainManager.Instance.resetScore();
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -29,5 +38,23 @@ public class FinishedMenu : MonoBehaviour
         Debug.Log("Exiting...");
     }
 
+    public string Winner()
+    {
+        if (player1score > player2score)
+        {
+            PlayerPrefs.SetInt("winner", player1score);
+            return "1";
+        }
+        else if (player1score < player2score)
+        {
+            PlayerPrefs.SetInt("winner", player2score);
+            return "2";
+        }
+        else
+        {
+            PlayerPrefs.SetInt("winner", player1score);
+            return "both";
+        }
+    }
 
 }
