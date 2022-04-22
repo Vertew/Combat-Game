@@ -9,6 +9,8 @@ TagManager:
   - ScoreUI
   - NameUI
   - TitleUI
+  - Projectile
+  - PowerUp
   layers:
   - Default
   - TransparentFX
@@ -48,6 +50,9 @@ TagManager:
     locked: 0
   - name: Floor
     uniqueID: 3935350365
+    locked: 0
+  - name: PowerUp
+    uniqueID: 203073099
     locked: 0
   - name: Tanks
     uniqueID: 3763169965

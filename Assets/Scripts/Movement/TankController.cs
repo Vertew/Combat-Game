@@ -12,8 +12,8 @@ public class TankController : MonoBehaviour
     // movement functions.
 
     [SerializeField] private Transform myForward;
-    [SerializeField] private float mySpeed;
-    [SerializeField] private float maxRotationSpeed;
+    private float mySpeed;
+    private float maxRotationSpeed;
     [SerializeField] private Transform myTarget;
     [SerializeField] float nextWaypointDistance = 3f;
 
@@ -22,6 +22,7 @@ public class TankController : MonoBehaviour
     private float angleToTarget;
     private float vectorMag;
     private float vectorMag2;
+    private TankManager myManager;
     private Vector2 vectorToTarget = new Vector2();
     private Vector2 vectorToTank = new Vector2();
 
@@ -34,8 +35,11 @@ public class TankController : MonoBehaviour
 
     private void Awake()
     {
+        myManager = gameObject.GetComponent<TankManager>();
         rigidBody = GetComponent<Rigidbody2D>();
         myTransform = transform;
+        mySpeed = myManager.mySpeed;
+        maxRotationSpeed = myManager.myRotationSpeed;
     }
 
     private void Start()

@@ -9,11 +9,12 @@ public class PlayerController : MonoBehaviour, IEntity
 {
 
     [SerializeField] private Transform myForward;
-    [SerializeField] private float mySpeed;
-    [SerializeField] private float maxRotationSpeed;
     //[SerializeField] private Transform myTarget;
 
     private Rigidbody2D rigidBody;
+    private float mySpeed;
+    private float maxRotationSpeed;
+    private TankManager myManager;
     private float angleToTarget;
     private float vectorMag;
     private Vector2 vectorToTarget = new Vector2();
@@ -26,13 +27,19 @@ public class PlayerController : MonoBehaviour, IEntity
 
     private void Awake()
     {
+        myManager = gameObject.GetComponent<TankManager>();
         rigidBody = GetComponent<Rigidbody2D>();
         myTransform = transform;
         commandProcessor = GetComponent<CommandProcessor>();
+        mySpeed = myManager.mySpeed;
+        maxRotationSpeed = myManager.myRotationSpeed;
     }
 
     void Update()
     {
+        // These values needs to be continuously updated
+        // in case they are altered by powerups.
+        mySpeed = myManager.mySpeed;
 
         rigidBody.angularVelocity = 0f;
         rigidBody.velocity = Vector2.zero;

@@ -8,44 +8,65 @@ using UnityEngine.SceneManagement;
 public class TankManager : MonoBehaviour
 {
 
-    [SerializeField] public int myScore;
-    [SerializeField] public int myHealth;
-    [SerializeField] public string tankName;
+    public int myScore;
+    public int myHealth;
+    public float mySpeed;
+    public float myRotationSpeed;
+    public string tankName;
     [SerializeField] private Vector3 spawnPoint;
     [SerializeField] private Quaternion startRotation;
     private GameObject myTank;
     private string objName;
+    private bool powerUp;
+    [SerializeField] private float powerTimerMax;
+    [SerializeField] private float currentPowerTimer;
 
 
 
     void Start()
     {
         GameEvents.current.OnTankHit += OnHit;
-        //GetScore();
     }
 
     private void Awake()
     {
         objName = gameObject.name;
-        myHealth = 3;
         myTank = gameObject;
         spawnPoint = myTank.transform.position;
         startRotation = myTank.transform.rotation;
+        powerTimerMax = 10f;
+        powerUp = false;
+        SetValues();
         GetScore();
-        Debug.Log("Score: " + myScore);
     }
 
-    // If a projectile enters the tank it loses health
     private void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        myHealth--;
-        if (myHealth == 0) 
+        // If a projectile enters the tank it loses health,
+        // if health goes to 0, the tank is destroyed.
+        if (hitInfo.CompareTag("Projectile"))
         {
-            GameEvents.current.TankKilledTrigger();
+            myHealth--;
+            if (myHealth == 0)
+            {
+                GameEvents.current.TankKilledTrigger();
+            }
+        }
+        else if (hitInfo.CompareTag("PowerUp"))
+        {
+            // The tank can only have one powerup at a time.
+            // Each powerup lasts 10 seconds and then goes away.
+            if (!powerUp)
+            {
+                mySpeed += 1;
+                myRotationSpeed += 100;
+                hitInfo.gameObject.SetActive(false);
+                powerUp = true;
+            } 
         }
     }
 
-    // When a shot hits a tank, the round restarts, i.e. tanks restart at spawn positions
+    // When a shot hits the tank, the round restarts, i.e. tank restarts at spawn position
     private void OnHit()
     {
         MainManager.Instance.updateScore(myScore, objName);
@@ -64,9 +85,30 @@ public class TankManager : MonoBehaviour
         }
     }
 
+    // Sets all tank values to their defaults
+    private void SetValues()
+    {
+        myHealth = 3;
+        mySpeed = 1;
+        myRotationSpeed = 100;
+        currentPowerTimer = powerTimerMax;
+    }
+
     void Update()
     {
-
+        // If the tank has a powerup, the cooldown takes place.
+        if (powerUp)
+        {
+            if (currentPowerTimer > 0)
+            {
+                currentPowerTimer -= Time.deltaTime;
+            }
+            else
+            {
+                powerUp = false;
+                SetValues();
+            }
+        }
     }
 
 

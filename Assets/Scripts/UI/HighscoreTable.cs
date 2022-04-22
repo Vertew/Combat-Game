@@ -9,7 +9,6 @@ public class HighscoreTable : MonoBehaviour
     private Transform entryContainer;
     private Transform entryTemplate;
     private List<Transform> highscoreEntryTransformList;
-    private List<HighscoreEntry> highscoreEntryList;
 
     private void Awake()
     {
@@ -18,21 +17,27 @@ public class HighscoreTable : MonoBehaviour
 
         entryTemplate.gameObject.SetActive(false);
 
-        highscoreEntryList = new List<HighscoreEntry>()
-        {
-            new HighscoreEntry{score = 0, name = "joe" }
-        };
-
+        //PlayerPrefs.DeleteAll();
         string storedJson = PlayerPrefs.GetString("highscoreTable");
 
+        // The behaviour is strange when the player prefs is empty, as a result
+        // I have to perform this strange work around to populate the table
+        // in the case that it's empty so that highscores is initiated correctly.
+        // This doesn't effect the actual table which operatates normally.
         if (storedJson == "")
         {
-            storedJson = JsonUtility.ToJson(highscoreEntryList);
+            storedJson = JsonUtility.ToJson(new HighscoreEntry { score = 0, name = "temp" });
+            PlayerPrefs.SetString("highscoreTable", storedJson);
+            PlayerPrefs.Save();
+            storedJson = PlayerPrefs.GetString("highscoreTable");
+            Highscores highscores = JsonUtility.FromJson<Highscores>(storedJson);
+            CreateTable(highscores);
         }
-
-        Highscores highscores = JsonUtility.FromJson<Highscores>(storedJson);
-
-        CreateTable(highscores);
+        else
+        {
+            Highscores highscores = JsonUtility.FromJson<Highscores>(storedJson);
+            CreateTable(highscores);
+        }
 
     }
 
