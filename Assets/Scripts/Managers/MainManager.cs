@@ -11,7 +11,7 @@ public class MainManager : MonoBehaviour
 
     // The scores of the two players are stored here in the singleton class while the game is in progress
     public int score1, score2, currentLevel;
-    public bool singleplayer;
+    public bool singleplayer, scoreSaved;
     private GameObject playerAI, playerHuman;
 
     void OnEnable()
@@ -86,6 +86,7 @@ public class MainManager : MonoBehaviour
     {
         score1 = 0;
         score2 = 0;
+        scoreSaved = false;
     }
 
     void OnDisable()

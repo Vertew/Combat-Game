@@ -6,7 +6,7 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
 
-    [SerializeField] private float projectile_velocity;
+    private float projectile_velocity;
     [SerializeField] private Rigidbody2D rb2d;
     private GameObject myTank;
     private TankManager myTankManager;
@@ -18,10 +18,17 @@ public class Bullet : MonoBehaviour
         Destroy(gameObject, 5f);
     }
 
+    // Retrieve message regarding shot origin
     public void Retriever(GameObject tankInput)
     {
         myTank = tankInput;
         myTankManager = myTank.GetComponent<TankManager>();
+        projectile_velocity = myTankManager.myShotSpeed;
+    }
+
+    private void Update()
+    {
+        projectile_velocity = myTankManager.myShotSpeed;
     }
 
     // Destroy shot if it hits object
@@ -33,7 +40,10 @@ public class Bullet : MonoBehaviour
             myTankManager.myScore += 15;
             GameEvents.current.TankHitTrigger();
         }
-        Destroy(gameObject);
+        if (!hitInfo.CompareTag("PowerUp"))
+        {
+            Destroy(gameObject);
+        }
     }
 
 }

@@ -8,25 +8,16 @@ using UnityEngine.SceneManagement;
 public class TankManager : MonoBehaviour
 {
 
-    public int myScore;
-    public int myHealth;
-    public float mySpeed;
-    public float myRotationSpeed;
-    public string tankName;
     [SerializeField] private Vector3 spawnPoint;
     [SerializeField] private Quaternion startRotation;
-    private GameObject myTank;
-    private string objName;
-    private bool powerUp;
-    [SerializeField] private float powerTimerMax;
     [SerializeField] private float currentPowerTimer;
 
-
-
-    void Start()
-    {
-        GameEvents.current.OnTankHit += OnHit;
-    }
+    private GameObject myTank;
+    private PowerUp powerUpValues;
+    public int myScore, myHealth;
+    public float mySpeed, myRotationSpeed, myReloadSpeed, myShotSpeed, powerTimerMax;
+    public bool laser, powerUp;
+    public string tankName, myPowerup, objName;
 
     private void Awake()
     {
@@ -36,7 +27,12 @@ public class TankManager : MonoBehaviour
         startRotation = myTank.transform.rotation;
         powerTimerMax = 10f;
         powerUp = false;
-        SetValues();
+        SetValueDefaults();
+    }
+
+    void Start()
+    {
+        GameEvents.current.OnTankHit += OnHit;
         GetScore();
     }
 
@@ -58,8 +54,9 @@ public class TankManager : MonoBehaviour
             // Each powerup lasts 10 seconds and then goes away.
             if (!powerUp)
             {
-                mySpeed += 1;
-                myRotationSpeed += 100;
+                powerUpValues = hitInfo.GetComponent<PowerUp>();
+                myPowerup = hitInfo.gameObject.name;
+                AdjustValues(powerUpValues.speed, powerUpValues.rotationSpeed, powerUpValues.reloadSpeed, powerUpValues.shotSpeed, powerUpValues.laser);
                 hitInfo.gameObject.SetActive(false);
                 powerUp = true;
             } 
@@ -69,7 +66,6 @@ public class TankManager : MonoBehaviour
     // When a shot hits the tank, the round restarts, i.e. tank restarts at spawn position
     private void OnHit()
     {
-        MainManager.Instance.updateScore(myScore, objName);
         myTank.transform.SetPositionAndRotation(spawnPoint, startRotation);
     }
 
@@ -86,16 +82,33 @@ public class TankManager : MonoBehaviour
     }
 
     // Sets all tank values to their defaults
-    private void SetValues()
+    private void SetValueDefaults()
     {
         myHealth = 3;
         mySpeed = 1;
         myRotationSpeed = 100;
+        myReloadSpeed = 1f;
+        myShotSpeed = 5;
+        laser = false;
+        myPowerup = "No Powerup";
         currentPowerTimer = powerTimerMax;
+    }
+
+    // Used to set new values when a powerup is picked up
+    public void AdjustValues(int newSpeed, int newRotationSpeed, float newReloadSpeed, float newShotSpeed, bool newLaser)
+    {
+        mySpeed = newSpeed;
+        myRotationSpeed = newRotationSpeed;
+        myReloadSpeed = newReloadSpeed;
+        myShotSpeed = newShotSpeed;
+        laser = newLaser;
     }
 
     void Update()
     {
+
+        MainManager.Instance.updateScore(myScore, objName);
+
         // If the tank has a powerup, the cooldown takes place.
         if (powerUp)
         {
@@ -106,7 +119,7 @@ public class TankManager : MonoBehaviour
             else
             {
                 powerUp = false;
-                SetValues();
+                SetValueDefaults();
             }
         }
     }
@@ -114,7 +127,6 @@ public class TankManager : MonoBehaviour
 
     private void OnDestroy()
     {
-        MainManager.Instance.updateScore(myScore, objName);
         GameEvents.current.OnTankHit -= OnHit;
     }
 

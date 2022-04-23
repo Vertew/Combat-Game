@@ -11,6 +11,7 @@ TagManager:
   - TitleUI
   - Projectile
   - PowerUp
+  - PowerupUI
   layers:
   - Default
   - TransparentFX

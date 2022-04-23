@@ -49,6 +49,10 @@ public class UIManager : MonoBehaviour
             {
                 UItext.text = "Level " + levelNum;
             }
+            else if (gameObject.CompareTag("PowerupUI"))
+            {
+                UItext.text = "Powerup: " + tankManager.myPowerup;
+            }
         }
     }
 

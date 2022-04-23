@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class HighscoreTable : MonoBehaviour
 {
@@ -96,9 +97,12 @@ public class HighscoreTable : MonoBehaviour
 
     public void AddHighscoreEntry()
     {
+
         int newScore = PlayerPrefs.GetInt("winner");
 
         string newName = gameObject.GetComponentInChildren<InputField>().text;
+
+        MainManager.Instance.scoreSaved = true;
 
         HighscoreEntry highscoreEntry = new HighscoreEntry { score = newScore, name = newName };
 
@@ -107,20 +111,17 @@ public class HighscoreTable : MonoBehaviour
 
         highscores.highscoreEntryList.Add(highscoreEntry);
 
-        CreateTable(highscores);
-
         string json = JsonUtility.ToJson(highscores);
         PlayerPrefs.SetString("highscoreTable", json);
         PlayerPrefs.Save();
 
-        gameObject.GetComponentInChildren<InputField>().enabled = false;
+        SceneManager.LoadScene("ScoresMenu");
     }
 
     private class Highscores
     {
         public List<HighscoreEntry> highscoreEntryList;
     }
-
 
     [System.Serializable]
     private class HighscoreEntry

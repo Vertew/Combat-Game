@@ -40,6 +40,7 @@ public class PlayerController : MonoBehaviour, IEntity
         // These values needs to be continuously updated
         // in case they are altered by powerups.
         mySpeed = myManager.mySpeed;
+        maxRotationSpeed = myManager.myRotationSpeed;
 
         rigidBody.angularVelocity = 0f;
         rigidBody.velocity = Vector2.zero;
