@@ -14,7 +14,8 @@ public class Bullet : MonoBehaviour
     void Start()
     {
         rb2d.velocity = transform.up * projectile_velocity;
-        // Destroy shot if it exists for too long
+        // Destroy shot if it exists for longer than 5 seconds, could represent a range mechanic
+        // although the levels aren't really big enough for this to factor into gameplay
         Destroy(gameObject, 5f);
     }
 
@@ -26,6 +27,7 @@ public class Bullet : MonoBehaviour
         projectile_velocity = myTankManager.myShotSpeed;
     }
 
+    // Keeping the shot speed value updated since it is altered by powerups
     private void Update()
     {
         projectile_velocity = myTankManager.myShotSpeed;
@@ -34,12 +36,17 @@ public class Bullet : MonoBehaviour
     // Destroy shot if it hits object
     private void OnTriggerEnter2D(Collider2D hitInfo)
     {
-        // If the tank hits another tank and it isn't the tank the shot was fired from, score is risen and tank hit trigger occurs
-        if (hitInfo.gameObject != myTank && hitInfo.CompareTag("Tank"))
+        // If the shot hits another tank and it isn't the tank the shot was fired from, score is risen and tank hit trigger occurs
+        if (hitInfo.gameObject != myTank && hitInfo.CompareTag("Tank") && hitInfo.gameObject.GetComponent<TankManager>().invun == false)
         {
             myTankManager.myScore += 15;
             GameEvents.current.TankHitTrigger();
+            if (!(myTank.name == "TankEnemy"))
+            {
+                AchievementManager.achievement01Count += 1;
+            }
         }
+        // The shot passes through powerups
         if (!hitInfo.CompareTag("PowerUp"))
         {
             Destroy(gameObject);

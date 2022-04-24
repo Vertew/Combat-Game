@@ -28,7 +28,7 @@ public class FinishedMenu : MonoBehaviour
 
     public void Continue()
     {
-        MainManager.Instance.resetScore();
+        //MainManager.Instance.ResetScore();
         SceneManager.LoadScene("MainMenu");
     }
 

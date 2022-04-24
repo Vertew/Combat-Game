@@ -6,6 +6,6 @@ public class PowerUp : MonoBehaviour
 {
     public int speed, rotationSpeed, shotSpeed;
     public float reloadSpeed;
-    public bool laser;
+    public bool laser, invincible;
 
 }

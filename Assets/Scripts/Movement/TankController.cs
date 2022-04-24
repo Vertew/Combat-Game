@@ -6,9 +6,8 @@ using Pathfinding;
 [RequireComponent(typeof(Rigidbody2D))]
 public class TankController : MonoBehaviour
 {
-
-    // This class handles the basic movement AI for an AI opponent.
-    // It uses the A* pathfinding project in conjunction with my own 
+    // This class handles the automated movement for a computer opponent in singleplayer.
+    // It uses the A* pathfinding project package in conjunction with my own 
     // movement functions.
 
     [SerializeField] private Transform myForward;
@@ -28,7 +27,7 @@ public class TankController : MonoBehaviour
 
     private Path path;
     private int currentWaypoint = 0;
-    private bool reachedEndOfPath = false; // This is used but MSVS doesn't seem to acknowledge the fact
+    private bool reachedEndOfPath;
     private Seeker seeker;
 
     public Transform myTransform;
@@ -38,15 +37,14 @@ public class TankController : MonoBehaviour
         myManager = gameObject.GetComponent<TankManager>();
         rigidBody = GetComponent<Rigidbody2D>();
         myTransform = transform;
-        mySpeed = myManager.mySpeed;
+        mySpeed = myManager.mySpeed -0.5f;
         maxRotationSpeed = myManager.myRotationSpeed;
     }
 
     private void Start()
     {
         seeker = GetComponent<Seeker>();
-
-        InvokeRepeating("UpdatePath", 0f, .5f);
+        InvokeRepeating(nameof(UpdatePath), 0f, .5f);
     }
 
     private void UpdatePath()
@@ -69,6 +67,10 @@ public class TankController : MonoBehaviour
 
     private void FixedUpdate()
     {
+
+        mySpeed = myManager.mySpeed - 0.5f;
+        maxRotationSpeed = myManager.myRotationSpeed;
+
         if (path == null)
         {
             return;

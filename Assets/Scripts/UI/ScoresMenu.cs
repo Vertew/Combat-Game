@@ -17,7 +17,7 @@ public class ScoresMenu : MonoBehaviour
 
     public void Continue()
     {
-        MainManager.Instance.resetScore();
+        //MainManager.Instance.ResetScore();
         SceneManager.LoadScene("MainMenu");
     }
 

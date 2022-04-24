@@ -13,6 +13,7 @@ public class MainManager : MonoBehaviour
     public int score1, score2, currentLevel;
     public bool singleplayer, scoreSaved;
     private GameObject playerAI, playerHuman;
+    [SerializeField] private GameObject powerups;
 
     void OnEnable()
     {
@@ -22,6 +23,7 @@ public class MainManager : MonoBehaviour
     void Start()
     {
         GameEvents.current.OnTankKilled += OnKilled;
+        GameEvents.current.OnTankHit += OnRoundRestart;
     }
 
     private void Awake()
@@ -45,6 +47,15 @@ public class MainManager : MonoBehaviour
     {
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
+
+    private void OnRoundRestart()
+    {
+        for (int i = 0; i < powerups.transform.childCount; i++)
+        {
+            powerups.transform.GetChild(i).gameObject.SetActive(true);
+        }
+    }
+
     public void updateSingleplayer(bool val)
     {
         singleplayer = val;
@@ -53,6 +64,7 @@ public class MainManager : MonoBehaviour
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         currentLevel = SceneManager.GetActiveScene().buildIndex;
+        powerups = GameObject.Find("Powerups");
         if (currentLevel > 0 && currentLevel < 6)
         {
             playerAI = GameObject.Find("TankEnemy");
@@ -68,24 +80,32 @@ public class MainManager : MonoBehaviour
         }
     }
 
-    public void updateScore(int score, string name)
+    public void UpdateScore(int score, string name)
     {
 
         if(name == "TankPlayer")
         {
             score1 = score;
+            AchievementManager.achievement02Count = score;
+        }
+        else if (name == "TankPlayer2")
+        {
+            score2 = score;
+            AchievementManager.achievement02Count = score;
         }
         else
         {
+            // Unfortunately for the computer, it doesn't get to earn achievements.
             score2 = score;
         }
 
     }
 
-    public void resetScore()
+    public void ResetScore()
     {
         score1 = 0;
         score2 = 0;
+        PlayerPrefs.SetInt("winner", 0);
         scoreSaved = false;
     }
 

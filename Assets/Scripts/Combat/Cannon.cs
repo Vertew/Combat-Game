@@ -6,6 +6,8 @@ using UnityEngine.InputSystem;
 public class Cannon : MonoBehaviour
 {
 
+    // Handles shooting for player tanks. 
+
     [SerializeField] private Transform firepoint;
     [SerializeField] private GameObject shot;
     [SerializeField] private float currentReloadTime;
@@ -40,6 +42,7 @@ public class Cannon : MonoBehaviour
 
         if (currentReloadTime > 0)
         {
+            // Simple reload system
             currentReloadTime -= Time.deltaTime;
         }
         else
@@ -47,6 +50,7 @@ public class Cannon : MonoBehaviour
             
             if (shoot)
             {
+                // Instantiating the bullet if reload is complete
                 GameObject bullet = Instantiate(shot, firepoint.position, firepoint.rotation);
                 // Sending messsage containing name of tank firing the shot to the shot object so it knows where it came from
                 bullet.SendMessage("Retriever", myTank);
@@ -56,6 +60,8 @@ public class Cannon : MonoBehaviour
         }
     }
 
+    // Checks if the player has the laser aim powerup and draws
+    // the laser if they do.
     private void CheckLaser()
     {
         if (laser)
@@ -73,6 +79,8 @@ public class Cannon : MonoBehaviour
             lineRenderer.SetPositions(Arraywithpositions);
         }
     }
+
+    // Handles the fire input action.
     public void Fire(InputAction.CallbackContext input)
     {
         if (input.performed) shoot = true;
