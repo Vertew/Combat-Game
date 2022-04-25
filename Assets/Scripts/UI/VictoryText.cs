@@ -11,14 +11,11 @@ public class VictoryText : MonoBehaviour
     [SerializeField] private TextMeshProUGUI UItext;
     private FinishedMenu finishedMenu;
 
-    // Start is called before the first frame update
     void Start()
     {
         finishedMenu = gameObject.GetComponentInParent<FinishedMenu>();
     }
 
-
-    // Update is called once per frame
     void Update()
     {
         

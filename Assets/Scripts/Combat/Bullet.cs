@@ -5,7 +5,6 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class Bullet : MonoBehaviour
 {
-
     private float projectile_velocity;
     [SerializeField] private Rigidbody2D rb2d;
     private GameObject myTank;
@@ -39,11 +38,11 @@ public class Bullet : MonoBehaviour
         // If the shot hits another tank and it isn't the tank the shot was fired from, score is risen and tank hit trigger occurs
         if (hitInfo.gameObject != myTank && hitInfo.CompareTag("Tank") && hitInfo.gameObject.GetComponent<TankManager>().invun == false)
         {
-            myTankManager.myScore += 15;
+            myTankManager.myScore += 10;
             GameEvents.current.TankHitTrigger();
             if (!(myTank.name == "TankEnemy"))
             {
-                AchievementManager.achievement01Count += 1;
+                AchievementManager.achievementCount[0] = 1;
             }
         }
         // The shot passes through powerups

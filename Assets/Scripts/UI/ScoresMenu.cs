@@ -17,13 +17,13 @@ public class ScoresMenu : MonoBehaviour
 
     public void Continue()
     {
-        //MainManager.Instance.ResetScore();
+        MainManager.Instance.fromMain = false;
         SceneManager.LoadScene("MainMenu");
     }
 
     private void Update()
     {
-        if (MainManager.Instance.scoreSaved)
+        if (MainManager.Instance.scoreSaved || MainManager.Instance.fromMain == true)
         {
             scoreInput.enabled = false;
         }

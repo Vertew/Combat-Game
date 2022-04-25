@@ -6,23 +6,15 @@ using UnityEngine.SceneManagement;
 public class MainMenu : MonoBehaviour
 {
 
-    public string level1;
-
     [SerializeField] private GameObject singleplayerButton;
     [SerializeField] private GameObject multiplayerButton;
     [SerializeField] private GameObject startButton;
-    [SerializeField] private GameObject optionsButton;
+    [SerializeField] private GameObject scoresButton;
+    [SerializeField] private GameObject achievementsButton;
 
-    // Start is called before the first frame update
     void Start()
     {
         MainManager.Instance.ResetScore();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
     public void StartGame()
@@ -30,29 +22,31 @@ public class MainMenu : MonoBehaviour
         singleplayerButton.SetActive(true);
         multiplayerButton.SetActive(true);
         startButton.SetActive(false);
-        optionsButton.SetActive(false);
+        scoresButton.SetActive(false);
+        achievementsButton.SetActive(false);
     }
 
     public void StartSingleplayer()
     {
-       MainManager.Instance.updateSingleplayer(true);
-       SceneManager.LoadScene(level1);
+       MainManager.Instance.UpdateSingleplayer(true);
+       SceneManager.LoadScene(1);
     }
 
     public void StartMultiplayer()
     {
-        MainManager.Instance.updateSingleplayer(false);
-        SceneManager.LoadScene(level1);
+        MainManager.Instance.UpdateSingleplayer(false);
+        SceneManager.LoadScene(1);
     }
 
     public void ViewScores()
     {
+        MainManager.Instance.fromMain = true;
         SceneManager.LoadScene(7);
     }
 
-    public void CloseOptions()
+    public void ViewAchievements()
     {
-
+        SceneManager.LoadScene(8);
     }
 
     public void ExitGame()
@@ -60,6 +54,4 @@ public class MainMenu : MonoBehaviour
         Application.Quit();
         Debug.Log("Exiting...");
     }
-
-
 }

@@ -6,19 +6,15 @@ using UnityEngine.SceneManagement;
 public class FinishedMenu : MonoBehaviour
 {
 
-    public int player1score, player2score;
+    public int player1score, player2score, winnerScore;
 
     // The scores of the game that just finished are kept and the scores are then
-    // resent in main manager back to 0.
+    // reset in main manager back to 0.
     void Start()
     {
         player1score = MainManager.Instance.score1;
         player2score = MainManager.Instance.score2;
-    }
-
-    void Update()
-    {
-        
+        AllocateBonus();
     }
 
     public void Scores()
@@ -28,7 +24,6 @@ public class FinishedMenu : MonoBehaviour
 
     public void Continue()
     {
-        //MainManager.Instance.ResetScore();
         SceneManager.LoadScene("MainMenu");
     }
 
@@ -38,23 +33,45 @@ public class FinishedMenu : MonoBehaviour
         Debug.Log("Exiting...");
     }
 
+    private void AllocateBonus()
+    {
+        if (Winner() == "1")
+        {
+            winnerScore = player1score += 1000;
+            PlayerPrefs.SetInt("winner", winnerScore);
+            AchievementManager.achievementCount[2] = 1;
+            AchievementManager.achievementCount[3] = winnerScore;
+        }
+        else if (Winner() == "2")
+        {
+            winnerScore = player2score += 1000;
+            PlayerPrefs.SetInt("winner", winnerScore);
+            if (!MainManager.Instance.singleplayer)
+            {
+                AchievementManager.achievementCount[2] = 1;
+                AchievementManager.achievementCount[3] = winnerScore;
+            }
+        }
+        else
+        {
+            winnerScore = player1score += 500;
+            PlayerPrefs.SetInt("winner", winnerScore);
+        }
+    }
+
     public string Winner()
     {
         if (player1score > player2score)
         {
-            PlayerPrefs.SetInt("winner", player1score);
             return "1";
         }
         else if (player1score < player2score)
         {
-            PlayerPrefs.SetInt("winner", player2score);
             return "2";
         }
         else
         {
-            PlayerPrefs.SetInt("winner", player1score);
             return "both";
         }
     }
-
 }

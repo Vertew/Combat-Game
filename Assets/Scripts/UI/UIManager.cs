@@ -56,7 +56,8 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    
-
-
+    public void Quit()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
 }

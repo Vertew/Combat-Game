@@ -6,65 +6,77 @@ using UnityEngine.UI;
 public class AchievementManager : MonoBehaviour
 {
 
-    // Achievement manager class. Surprisingly, this class handles the management of achievements.
-    // Not sure this is the best way of doing this but I haven't got a huge amount of time to find
-    // a better way unfortunately and it does the job.
+    // Class for managing achievements.
+    // Not sure this is the best way of doing it but it works well enough.
 
     public GameObject achievementNotification;
     public GameObject achievementTitle;
     public GameObject achievementDescription;
 
-    public static int achievement01Count, achievement02Count, achievement03Count, achievement04Count, achievement05Count;
-    private int achievement01Code, achievement02Code, achievement03Code, achievement04Code, achievement05Code;
-    private int achievement01Trigger = 1;
-    private int achievement02Trigger = 210;
+    public static readonly int achievementNum = 5;
+    public static int[] achievementCount = new int[achievementNum];
+    private int[] achievementCode = new int[achievementNum];
+    private int[] achievementTrigger = new int[achievementNum];
 
     private void Start()
     {
-        // Resetting prefs for testing purposes
-        PlayerPrefs.SetInt("A01", 0);
-        PlayerPrefs.SetInt("A02", 0);
+        SetAchievementValues();
     }
     void Update()
     {
-        achievement01Code = PlayerPrefs.GetInt("A01");
-        achievement02Code = PlayerPrefs.GetInt("A02");
-        if (achievement01Count == achievement01Trigger && achievement01Code != 01)
+        CheckAchievementState();
+    }
+    private void CheckAchievementState()
+    {
+        for (int i = 0; i < achievementNum; i++)
         {
-            StartCoroutine(TriggerAchievement01());
-        }
-        if (achievement02Count == achievement02Trigger && achievement02Code != 02)
-        {
-            StartCoroutine(TriggerAchievement02());
+            int j = i + 1;
+            achievementCode[i] = PlayerPrefs.GetInt("A0" + j);
+            Debug.Log(achievementCount[i] + " " + achievementTrigger[i]);
+            if (achievementCount[i] == achievementTrigger[i] && achievementCode[i] != j)
+            {
+                StartCoroutine(TriggerAchievement(i, j));
+            }
         }
     }
-
-    IEnumerator TriggerAchievement01()
+    IEnumerator TriggerAchievement(int i, int j)
     {
         // The achievement code could really be set to anything aside from 0
         // since it's essentially acting as boolean, but a boolean can't be
         // stored in player prefs. I set it to the achievement number for clarity.
-        achievement01Code = 01;
-        PlayerPrefs.SetInt("A01", achievement01Code);
-        AchievementTextSetter("My First Hit!", "Hit an enemy for the first time");
+        achievementCode[i] = j;
+        PlayerPrefs.SetInt("A0" + j, achievementCode[i]);
+        SetAchievementField(PlayerPrefs.GetString("A0" + j + "title"), PlayerPrefs.GetString("A0" + j + "body"));
         yield return new WaitForSeconds(10);
         achievementNotification.SetActive(false);
     }
 
-    IEnumerator TriggerAchievement02()
-    {
-        achievement02Code = 02;
-        PlayerPrefs.SetInt("A02", achievement02Code);
-        AchievementTextSetter("Lotsa points", "Get a load of points");
-        yield return new WaitForSeconds(10);
-        achievementNotification.SetActive(false);
-    }
-
-    private void AchievementTextSetter(string titleText, string bodyText)
+    private void SetAchievementField(string titleText, string bodyText)
     {
         achievementTitle.GetComponent<Text>().text = titleText;
         achievementDescription.GetComponent<Text>().text = bodyText;
         achievementNotification.SetActive(true);
+    }
+
+
+    private void SetAchievementValues()
+    {
+        achievementTrigger[0] = 1;
+        achievementTrigger[1] = 390;
+        achievementTrigger[2] = 1;
+        achievementTrigger[3] = 1650;
+        achievementTrigger[4] = 1;
+
+        PlayerPrefs.SetString("A01title", "Take that!");
+        PlayerPrefs.SetString("A01body", "Hit an enemy for the first time");
+        PlayerPrefs.SetString("A02title", "Lotsa points");
+        PlayerPrefs.SetString("A02body", "Earn 390 points");
+        PlayerPrefs.SetString("A03title", "Victory!");
+        PlayerPrefs.SetString("A03body", "Win a match");
+        PlayerPrefs.SetString("A04title", "Domination");
+        PlayerPrefs.SetString("A04body", "Get the maximum number of points");
+        PlayerPrefs.SetString("A05title", "Flawless");
+        PlayerPrefs.SetString("A05body", "Finish a level without being hit");
     }
 
 

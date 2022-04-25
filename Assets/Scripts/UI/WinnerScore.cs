@@ -9,7 +9,7 @@ public class WinnerScore : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI UItext;
 
-    void Update()
+    private void Start()
     {
         UItext.text = "Winner score: " + PlayerPrefs.GetInt("winner");
     }

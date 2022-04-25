@@ -8,19 +8,15 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour, IEntity
 {
 
+    // Class for handling the movement of the player
+
     [SerializeField] private Transform myForward;
-    //[SerializeField] private Transform myTarget;
 
     private Rigidbody2D rigidBody;
     private float mySpeed;
     private float maxRotationSpeed;
     private TankManager myManager;
-    private float angleToTarget;
-    private float vectorMag;
-    private Vector2 vectorToTarget = new Vector2();
-    private Transform myTransform;
     Rigidbody2D IEntity.rb { get { return rigidBody; } }
-    private Vector2 playerInput;
 
     private CommandProcessor commandProcessor;
     private bool playerForward, playerBack, playerLeft, playerRight;
@@ -29,7 +25,6 @@ public class PlayerController : MonoBehaviour, IEntity
     {
         myManager = gameObject.GetComponent<TankManager>();
         rigidBody = GetComponent<Rigidbody2D>();
-        myTransform = transform;
         commandProcessor = GetComponent<CommandProcessor>();
         mySpeed = myManager.mySpeed;
         maxRotationSpeed = myManager.myRotationSpeed;
@@ -50,7 +45,6 @@ public class PlayerController : MonoBehaviour, IEntity
 
     private void UpdateVelocity()
     {
-        vectorMag = vectorToTarget.magnitude;
 
         if (playerForward)
         {

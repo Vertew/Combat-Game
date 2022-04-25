@@ -29,4 +29,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ScoresMenu.unity
     guid: 7132d81ca8effc6489f1714924b50b66
+  - enabled: 1
+    path: Assets/Scenes/AchievementsMenu.unity
+    guid: 93993b1423bdd734ea6dcbe27d17370c
   m_configObjects: {}

@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class HighscoreTable : MonoBehaviour
 {
 
+    // Class for generating the scores table
+
     private Transform entryContainer;
     private Transform entryTemplate;
     private List<Transform> highscoreEntryTransformList;
@@ -18,7 +20,6 @@ public class HighscoreTable : MonoBehaviour
 
         entryTemplate.gameObject.SetActive(false);
 
-        //PlayerPrefs.DeleteAll();
         string storedJson = PlayerPrefs.GetString("highscoreTable");
 
         // The behaviour is strange when the player prefs is empty, as a result

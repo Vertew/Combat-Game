@@ -3,16 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// This is a singleton class!! You're using the singleton pattern here :sunglasses:
 public class MainManager : MonoBehaviour
 {
+
+    // The main manager class handles general aspects of the game such as
+    // loading scenes, restarting rounds and storing game values such as
+    // whether or not the game is in singleplayer mode, player scores etc.
+    // It is also an implementation of the singleton pattern.
 
     public static MainManager Instance;
 
     // The scores of the two players are stored here in the singleton class while the game is in progress
     public int score1, score2, currentLevel;
-    public bool singleplayer, scoreSaved;
-    private GameObject playerAI, playerHuman;
+    public bool singleplayer, scoreSaved, fromMain;
+    private GameObject player1, player2;
+    public string levelLoser;
     [SerializeField] private GameObject powerups;
 
     void OnEnable()
@@ -45,6 +50,16 @@ public class MainManager : MonoBehaviour
     // When a tank is killed, the next scene/level is loaded.
     private void OnKilled()
     {
+        if ((!singleplayer) && (player1.GetComponent<TankManager>().myHealth == 3 || player2.GetComponent<TankManager>().myHealth == 3))
+        {
+            AchievementManager.achievementCount[4] = 1;
+        }
+        else if (singleplayer && player1.GetComponent<TankManager>().myHealth == 3)
+        {
+            AchievementManager.achievementCount[4] = 1;
+        }
+
+
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
@@ -56,7 +71,7 @@ public class MainManager : MonoBehaviour
         }
     }
 
-    public void updateSingleplayer(bool val)
+    public void UpdateSingleplayer(bool val)
     {
         singleplayer = val;
     }
@@ -65,17 +80,18 @@ public class MainManager : MonoBehaviour
     {
         currentLevel = SceneManager.GetActiveScene().buildIndex;
         powerups = GameObject.Find("Powerups");
+        player1 = GameObject.Find("TankPlayer");
         if (currentLevel > 0 && currentLevel < 6)
         {
-            playerAI = GameObject.Find("TankEnemy");
-            playerHuman = GameObject.Find("TankPlayer2");
-            if (singleplayer)
+            if (!singleplayer)
             {
-                playerHuman.SetActive(false);
+                player2 = GameObject.Find("TankPlayer2");
+                GameObject.Find("TankEnemy").SetActive(false);
             }
             else
             {
-                playerAI.SetActive(false);
+                player2 = GameObject.Find("TankEnemy");
+                GameObject.Find("TankPlayer2").SetActive(false);
             }
         }
     }
@@ -86,19 +102,28 @@ public class MainManager : MonoBehaviour
         if(name == "TankPlayer")
         {
             score1 = score;
-            AchievementManager.achievement02Count = score;
+            if (levelLoser != name)
+            {
+                score1 += 100;
+            }
         }
         else if (name == "TankPlayer2")
         {
             score2 = score;
-            AchievementManager.achievement02Count = score;
+            if (levelLoser != name)
+            {
+                score2 += 100;
+            }
         }
         else
         {
-            // Unfortunately for the computer, it doesn't get to earn achievements.
             score2 = score;
+            if (levelLoser != name)
+            {
+                score2 += 100;
+            }
+            // Unfortunately for the computer, it doesn't get to earn achievements.
         }
-
     }
 
     public void ResetScore()
@@ -111,9 +136,6 @@ public class MainManager : MonoBehaviour
 
     void OnDisable()
     {
-        Debug.Log("OnDisable");
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
-
-
 }
