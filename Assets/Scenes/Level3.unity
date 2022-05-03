@@ -282,17 +282,17 @@ PrefabInstance:
   m_SourcePrefab: {fileID: 100100000, guid: 41a8353c36af40a4cbf2dc7eee74f7e5, type: 3}
 --- !u!1 &172005024 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 2990378407260233334, guid: 41a8353c36af40a4cbf2dc7eee74f7e5, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3606772871717149379, guid: 41a8353c36af40a4cbf2dc7eee74f7e5, type: 3}
   m_PrefabInstance: {fileID: 172005023}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &172005025 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 2990378406405160929, guid: 41a8353c36af40a4cbf2dc7eee74f7e5, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3606772871936801620, guid: 41a8353c36af40a4cbf2dc7eee74f7e5, type: 3}
   m_PrefabInstance: {fileID: 172005023}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &172005026 stripped
 GameObject:
-  m_CorrespondingSourceObject: {fileID: 2990378405849819593, guid: 41a8353c36af40a4cbf2dc7eee74f7e5, type: 3}
+  m_CorrespondingSourceObject: {fileID: 3606772872454122876, guid: 41a8353c36af40a4cbf2dc7eee74f7e5, type: 3}
   m_PrefabInstance: {fileID: 172005023}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &175159960
@@ -667,6 +667,7 @@ MonoBehaviour:
   laser: 0
   invun: 0
   powerUp: 0
+  computer: 0
   tankName: Red
   myPowerup: 
   objName: 
@@ -1243,6 +1244,8 @@ MonoBehaviour:
   currentLevel: 0
   singleplayer: 0
   scoreSaved: 0
+  fromMain: 0
+  levelLoser: 
   powerups: {fileID: 0}
 --- !u!4 &723162637
 Transform:
@@ -4947,6 +4950,7 @@ MonoBehaviour:
   laser: 0
   invun: 0
   powerUp: 0
+  computer: 0
   tankName: Red
   myPowerup: 
   objName: 
@@ -5380,6 +5384,7 @@ MonoBehaviour:
   laser: 0
   invun: 0
   powerUp: 0
+  computer: 0
   tankName: Blue
   myPowerup: 
   objName: 

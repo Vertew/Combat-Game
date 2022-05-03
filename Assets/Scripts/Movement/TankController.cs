@@ -27,7 +27,6 @@ public class TankController : MonoBehaviour
 
     private Path path;
     private int currentWaypoint = 0;
-    private bool reachedEndOfPath;
     private Seeker seeker;
 
     public Transform myTransform;
@@ -77,12 +76,7 @@ public class TankController : MonoBehaviour
         }
         if (currentWaypoint >= path.vectorPath.Count)
         {
-            reachedEndOfPath = true;
             return;
-        }
-        else
-        {
-            reachedEndOfPath = false;
         }
 
         UpdateVector();

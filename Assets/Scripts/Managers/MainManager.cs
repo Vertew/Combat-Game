@@ -15,8 +15,7 @@ public class MainManager : MonoBehaviour
 
     // The scores of the two players are stored here in the singleton class while the game is in progress
     public int score1, score2, currentLevel;
-    public bool singleplayer, scoreSaved, fromMain;
-    private GameObject player1, player2;
+    public bool singleplayer, scoreSaved, fromMain, flawless;
     public string levelLoser;
     [SerializeField] private GameObject powerups;
 
@@ -50,16 +49,6 @@ public class MainManager : MonoBehaviour
     // When a tank is killed, the next scene/level is loaded.
     private void OnKilled()
     {
-        if ((!singleplayer) && (player1.GetComponent<TankManager>().myHealth == 3 || player2.GetComponent<TankManager>().myHealth == 3))
-        {
-            AchievementManager.achievementCount[4] = 1;
-        }
-        else if (singleplayer && player1.GetComponent<TankManager>().myHealth == 3)
-        {
-            AchievementManager.achievementCount[4] = 1;
-        }
-
-
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
@@ -80,19 +69,19 @@ public class MainManager : MonoBehaviour
     {
         currentLevel = SceneManager.GetActiveScene().buildIndex;
         powerups = GameObject.Find("Powerups");
-        player1 = GameObject.Find("TankPlayer");
-        if (currentLevel > 0 && currentLevel < 6)
+        if (currentLevel > 0 && currentLevel < 6)   
         {
+            if (score1 >= 390){AchievementManager.achievementCount[1] = 1;}
             if (!singleplayer)
             {
-                player2 = GameObject.Find("TankPlayer2");
                 GameObject.Find("TankEnemy").SetActive(false);
+                if (score2 >= 390) {AchievementManager.achievementCount[1] = 1;}
             }
             else
             {
-                player2 = GameObject.Find("TankEnemy");
                 GameObject.Find("TankPlayer2").SetActive(false);
             }
+            if (flawless && currentLevel != 1) {AchievementManager.achievementCount[4] = 1;}
         }
     }
 
@@ -122,7 +111,6 @@ public class MainManager : MonoBehaviour
             {
                 score2 += 100;
             }
-            // Unfortunately for the computer, it doesn't get to earn achievements.
         }
     }
 

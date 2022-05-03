@@ -18,7 +18,7 @@ public class TankManager : MonoBehaviour
     private PowerUp powerUpValues;
     public int myScore, myHealth;
     public float mySpeed, myRotationSpeed, myReloadSpeed, myShotSpeed, powerTimerMax;
-    public bool laser, invun, powerUp, computer;
+    public bool laser, invun, powerUp, computer, hit, active;
     public string tankName, myPowerup, objName;
 
     private void Awake()
@@ -37,6 +37,7 @@ public class TankManager : MonoBehaviour
     {
         GameEvents.current.OnTankHit += OnHit;
         GetScore();
+        active = myTank.activeSelf;
     }
 
     private void OnTriggerEnter2D(Collider2D hitInfo)
@@ -47,6 +48,7 @@ public class TankManager : MonoBehaviour
         {
             if (!invun)
             {
+                hit = true;
                 myHealth--;
             }
             if (myHealth == 0)
@@ -119,11 +121,6 @@ public class TankManager : MonoBehaviour
 
         MainManager.Instance.UpdateScore(myScore, objName);
 
-        if (!computer)
-        {
-            AchievementManager.achievementCount[1] = myScore;
-        }
-
         // If the tank has a powerup, the cooldown takes place.
         if (powerUp)
         {
@@ -152,6 +149,7 @@ public class TankManager : MonoBehaviour
 
     private void OnDestroy()
     {
+        if (!hit && !computer && active) { MainManager.Instance.flawless = true; }
         GameEvents.current.OnTankHit -= OnHit;
     }
 

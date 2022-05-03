@@ -18,13 +18,9 @@ public abstract class Command
 
     public abstract void Execute();
 
-    // In case you want to implement a reply feature in the future or somethn I dunno
-    //public abstract void Undo();
-
     public float GetTime()
     {
         return time;
     }
-
-
 }
+

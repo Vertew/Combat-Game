@@ -32,7 +32,6 @@ public class AchievementManager : MonoBehaviour
         {
             int j = i + 1;
             achievementCode[i] = PlayerPrefs.GetInt("A0" + j);
-            Debug.Log(achievementCount[i] + " " + achievementTrigger[i]);
             if (achievementCount[i] == achievementTrigger[i] && achievementCode[i] != j)
             {
                 StartCoroutine(TriggerAchievement(i, j));
@@ -43,7 +42,7 @@ public class AchievementManager : MonoBehaviour
     {
         // The achievement code could really be set to anything aside from 0
         // since it's essentially acting as boolean, but a boolean can't be
-        // stored in player prefs. I set it to the achievement number for clarity.
+        // stored in player prefs.
         achievementCode[i] = j;
         PlayerPrefs.SetInt("A0" + j, achievementCode[i]);
         SetAchievementField(PlayerPrefs.GetString("A0" + j + "title"), PlayerPrefs.GetString("A0" + j + "body"));
@@ -62,7 +61,7 @@ public class AchievementManager : MonoBehaviour
     private void SetAchievementValues()
     {
         achievementTrigger[0] = 1;
-        achievementTrigger[1] = 390;
+        achievementTrigger[1] = 1;
         achievementTrigger[2] = 1;
         achievementTrigger[3] = 1650;
         achievementTrigger[4] = 1;
